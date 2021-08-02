@@ -1,23 +1,21 @@
 import os
 import sys
 
-
 import MySQLdb
 import psycopg2
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog, QApplication,  QMessageBox
 
-from PyQt5.QtWidgets import QDialog, QApplication, QMessageBox
-
-from Ui.welcomescreen import Ui_Dialog
-from Ui.tableview2user import Ui_TableDialog2
 from Ui.tableview import Ui_TableDialog
+
+from Ui.tableview2user import Ui_TableDialog2
+from Ui.welcomescreen import Ui_Dialog
 from Ui.signup import Ui_SignUpDialog
-from Ui.renewPassword import Ui_RenewPasswordDialog
 from Ui.recoveryPassword import Ui_RecoveryPasswordDialog
-from Ui.helpscreen import Ui_HelpScreenDialog
+from Ui.renewPassword import Ui_RenewPasswordDialog
 from Ui.birthday import Ui_BirthDayTableDialog
 from Ui.alluser import Ui_AllUserTableDialog
-
+from Ui.helpscreen import Ui_HelpScreenDialog
 
 import sqlite3
 
@@ -90,7 +88,6 @@ class DataBaseConnection:
         except psycopg2.OperationalError:
             print("База не доступна")
             sys.exit(app.exec_())
-
 
 class MessageBox(QMessageBox):
     def __init__(self):
@@ -231,6 +228,7 @@ class BaseForm(QDialog, DataBaseConnection):
         # сохраняем пользователя и пароль в текущей сессии
         welcome.ui.nameuserLineEdit.setText(saveuser)
         welcome.ui.passwordLineEdit.setText(savepassword)
+
 
     def gotoHelp(self):
         help = HelpScreen()
@@ -774,14 +772,14 @@ class RecoveryPassword(QDialog, DataBaseConnection):
         from email.mime.text import MIMEText
         from email.mime.multipart import MIMEMultipart
 
-        login = "...............@yandex.ru"# SMT-сервер (укажите свой, например "name@yandex.ru)
-        password = "............" # вставьте пароль от вашего почтового SMT-сервера
-        url = "smtp.yandex.ru"
+        login = self.ui.smtpClientField_2.text()
+        password = self.ui.smtpPasswordField_3.text()
+        url = self.ui.smtpURLField_4.text()
         toaddr = mail_addr
 
         msg = MIMEMultipart()
         msg['Subject'] = "Ваш забытый пароль от PhoneBook"
-        msg['From'] = ".................@yandex.ru" # тот же почтовый адрес SMT
+        msg['From'] = login
         body = f"Ваш забытый пароль от PhoneBook: {parol}"
         msg.attach(MIMEText(body, 'plain'))
         try:
@@ -811,9 +809,8 @@ class RecoveryPassword(QDialog, DataBaseConnection):
         Восстановление пароля через отправку на почту пароля
         :return:
         """
-        user = self.ui.recoveryPasswordField.text()
+        user = self.ui.adresEmailField.text()
         query = f"SELECT * FROM users WHERE email='{user}'"
-
         try:
              cur = self.conn.cursor()
              cur.execute(query)
@@ -907,7 +904,6 @@ class HelpScreen(QDialog):
         welcome = WelcomeScreen()
         widget.addWidget(welcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-
 
 class BirthDayOnWeek(QDialog, DataBaseConnection):
     def __init__(self):

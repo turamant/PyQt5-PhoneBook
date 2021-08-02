@@ -11,8 +11,7 @@ from Ui.tableview import Ui_TableDialog
 from Ui.tableview2user import Ui_TableDialog2
 from Ui.welcomescreen import Ui_Dialog
 from Ui.signup import Ui_SignUpDialog
-from Ui.helpscreen import Ui_HelpScreenDialog
-
+from fillprofile import Ui_fillProfileDialog
 from Ui.recoveryPassword import Ui_RecoveryPasswordDialog
 from Ui.renewPassword import Ui_RenewPasswordDialog
 from Ui.birthday import Ui_BirthDayTableDialog
@@ -231,11 +230,6 @@ class BaseForm(QDialog, DataBaseConnection):
         welcome.ui.nameuserLineEdit.setText(saveuser)
         welcome.ui.passwordLineEdit.setText(savepassword)
 
-    def gotoHelp(self):
-        help = HelpScreen()
-        widget.addWidget(help)
-        widget.setCurrentIndex(widget.currentIndex()+1)
-
 class MyFormUser(BaseForm):
     def __init__(self):
         super().__init__()
@@ -255,8 +249,6 @@ class MyFormUser(BaseForm):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
-
-        self.ui.helpPushButton.clicked.connect(self.gotoHelp)
 
         # кнопка загрузки всех данных в главную страницу таблицы
         self.ui.ALLsearchPushButton_16.clicked.connect(self.SearchRows_All)
@@ -553,13 +545,6 @@ class WelcomeScreen(QDialog, DataBaseConnection):
         self.ui.forgotPasswordPushButton.clicked.connect(self.gotoRecoveryPassword)
         self.ui.changePasswordPushButton.clicked.connect(self.gotoChangePassword)
 
-        self.ui.helpPushButton.clicked.connect(self.gotoHelp)
-
-    def gotoHelp(self):
-        help = HelpScreen()
-        widget.addWidget(help)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
     def startSave(self):
         global saveuser, savepassword
         query = f"SELECT email, password, save FROM users WHERE save='1'"
@@ -773,14 +758,14 @@ class RecoveryPassword(QDialog, DataBaseConnection):
         from email.mime.text import MIMEText
         from email.mime.multipart import MIMEMultipart
 
-        login = "...............@yandex.ru"# SMT-сервер (укажите свой, например "name@yandex.ru)
-        password = "............" # вставьте пароль от вашего почтового SMT-сервера
-        url = "smtp.yandex.ru"
+        login = self.ui.smtpClientField_2.text()
+        password = self.ui.smtpPasswordField_3.text()
+        url = self.ui.smtpURLField_4.text()
         toaddr = mail_addr
 
         msg = MIMEMultipart()
         msg['Subject'] = "Ваш забытый пароль от PhoneBook"
-        msg['From'] = ".................@yandex.ru" # тот же почтовый адрес SMT
+        msg['From'] = login
         body = f"Ваш забытый пароль от PhoneBook: {parol}"
         msg.attach(MIMEText(body, 'plain'))
         try:
@@ -810,9 +795,8 @@ class RecoveryPassword(QDialog, DataBaseConnection):
         Восстановление пароля через отправку на почту пароля
         :return:
         """
-        user = self.ui.recoveryPasswordField.text()
+        user = self.ui.adresEmailField.text()
         query = f"SELECT * FROM users WHERE email='{user}'"
-
         try:
              cur = self.conn.cursor()
              cur.execute(query)
@@ -829,7 +813,7 @@ class RecoveryPassword(QDialog, DataBaseConnection):
              else:
                  self.message.setInformativeText("Ошибка имени или пароля!")
                  self.message.show()
-        except sqlite3.IntegrityError:
+        except MySQLdb.IntegrityError:
              self.conn.rollback()
 
 class CreateAccScreen(QDialog, DataBaseConnection):
@@ -894,22 +878,11 @@ class CreateAccScreen(QDialog, DataBaseConnection):
                 self.message.setInformativeText("Пользователь с таким именем уже есть")
                 self.message.show()
 
-class HelpScreen(QDialog):
+class FillProfileScreen(QDialog):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_HelpScreenDialog()
+        self.ui = Ui_fillProfileDialog()
         self.ui.setupUi(self)
-
-        self.ui.helpCancelPushButton.clicked.connect(self.gotoWelcome)
-
-    def gotoWelcome(self):
-        """
-        Переход на главный экран приложения
-        :return:
-        """
-        welcome = WelcomeScreen()
-        widget.addWidget(welcome)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
 
 class BirthDayOnWeek(QDialog, DataBaseConnection):
     def __init__(self):

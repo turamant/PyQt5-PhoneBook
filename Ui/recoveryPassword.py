@@ -16,36 +16,38 @@ class Ui_RecoveryPasswordDialog(object):
         RecoveryPasswordDialog.setObjectName("RecoveryPasswordDialog")
         RecoveryPasswordDialog.resize(1175, 797)
         self.widget = QtWidgets.QWidget(RecoveryPasswordDialog)
-        self.widget.setGeometry(QtCore.QRect(-20, 0, 1221, 801))
+        self.widget.setGeometry(QtCore.QRect(-30, 0, 1221, 801))
         self.widget.setStyleSheet("background-color: rgb(232, 232, 232);")
         self.widget.setObjectName("widget")
         self.recoveryPasswordLabel = QtWidgets.QLabel(self.widget)
-        self.recoveryPasswordLabel.setGeometry(QtCore.QRect(380, 170, 471, 131))
+        self.recoveryPasswordLabel.setGeometry(QtCore.QRect(380, 60, 471, 131))
         self.recoveryPasswordLabel.setStyleSheet("font: 21pt \"DejaVu Math TeX Gyre\";\n"
 "color: black;")
         self.recoveryPasswordLabel.setObjectName("recoveryPasswordLabel")
-        self.errorLabel = QtWidgets.QLabel(self.widget)
-        self.errorLabel.setGeometry(QtCore.QRect(380, 460, 451, 71))
-        self.errorLabel.setStyleSheet("color: red;\n"
-"font: 18pt \"Cantarell\";\n"
-"")
-        self.errorLabel.setText("")
-        self.errorLabel.setObjectName("errorLabel")
         self.recoveryPasswordPushButton = QtWidgets.QPushButton(self.widget)
-        self.recoveryPasswordPushButton.setGeometry(QtCore.QRect(380, 500, 261, 51))
+        self.recoveryPasswordPushButton.setGeometry(QtCore.QRect(380, 590, 261, 51))
         self.recoveryPasswordPushButton.setStyleSheet("border-radius:20px;\n"
 "font: 18pt \"Cantarell\";\n"
 "background-color: green;")
         self.recoveryPasswordPushButton.setObjectName("recoveryPasswordPushButton")
-        self.recoveryPasswordField = QtWidgets.QLineEdit(self.widget)
-        self.recoveryPasswordField.setGeometry(QtCore.QRect(380, 310, 461, 71))
-        self.recoveryPasswordField.setObjectName("recoveryPasswordField")
+        self.adresEmailField = QtWidgets.QLineEdit(self.widget)
+        self.adresEmailField.setGeometry(QtCore.QRect(380, 180, 461, 71))
+        self.adresEmailField.setObjectName("adresEmailField")
         self.cancelPushButton = QtWidgets.QPushButton(self.widget)
-        self.cancelPushButton.setGeometry(QtCore.QRect(670, 500, 171, 51))
+        self.cancelPushButton.setGeometry(QtCore.QRect(670, 590, 171, 51))
         self.cancelPushButton.setStyleSheet("border-radius:20px;\n"
 "font: 18pt \"Cantarell\";\n"
 "background-color: red;")
         self.cancelPushButton.setObjectName("cancelPushButton")
+        self.smtpClientField_2 = QtWidgets.QLineEdit(self.widget)
+        self.smtpClientField_2.setGeometry(QtCore.QRect(380, 270, 461, 71))
+        self.smtpClientField_2.setObjectName("smtpClientField_2")
+        self.smtpPasswordField_3 = QtWidgets.QLineEdit(self.widget)
+        self.smtpPasswordField_3.setGeometry(QtCore.QRect(380, 360, 461, 71))
+        self.smtpPasswordField_3.setObjectName("smtpPasswordField_3")
+        self.smtpURLField_4 = QtWidgets.QLineEdit(self.widget)
+        self.smtpURLField_4.setGeometry(QtCore.QRect(380, 450, 461, 71))
+        self.smtpURLField_4.setObjectName("smtpURLField_4")
 
         self.retranslateUi(RecoveryPasswordDialog)
         QtCore.QMetaObject.connectSlotsByName(RecoveryPasswordDialog)
@@ -55,5 +57,18 @@ class Ui_RecoveryPasswordDialog(object):
         RecoveryPasswordDialog.setWindowTitle(_translate("RecoveryPasswordDialog", "Dialog"))
         self.recoveryPasswordLabel.setText(_translate("RecoveryPasswordDialog", "Восстановление пароля"))
         self.recoveryPasswordPushButton.setText(_translate("RecoveryPasswordDialog", "Сменить пароль"))
-        self.recoveryPasswordField.setPlaceholderText(_translate("RecoveryPasswordDialog", "   Адрес электронной почты"))
+        self.adresEmailField.setPlaceholderText(_translate("RecoveryPasswordDialog", "   Адрес электронной почты"))
         self.cancelPushButton.setText(_translate("RecoveryPasswordDialog", "Отмена"))
+        self.smtpClientField_2.setPlaceholderText(_translate("RecoveryPasswordDialog", "   Адрес SMTP клиента(name@yandex.ru)"))
+        self.smtpPasswordField_3.setPlaceholderText(_translate("RecoveryPasswordDialog", "   Пароль от SMTP клиента"))
+        self.smtpURLField_4.setPlaceholderText(_translate("RecoveryPasswordDialog", "   URL SMTP клиента(smtp.yandex.ru)"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    RecoveryPasswordDialog = QtWidgets.QDialog()
+    ui = Ui_RecoveryPasswordDialog()
+    ui.setupUi(RecoveryPasswordDialog)
+    RecoveryPasswordDialog.show()
+    sys.exit(app.exec_())
