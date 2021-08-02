@@ -22,72 +22,56 @@ import sqlite3
 saveuser = ""
 savepassword = ""
 
+class DataBase:
+    host = "localhost"
+    user = "user1"
+    passwd = "password1"
+    db = "phonebook"
 
-class DataBaseConnection:
-    def __init__(self, sqlsystem):
-        self.sqlsystem = sqlsystem
+    def __init__(self):
+        self.conn = MySQLdb.connect(self.host,
+                                    self.user,
+                                    self.passwd,
+                                    self.db,
+                                    use_unicode=True,
+                                    charset="utf8")
+        self.cur = self.conn.cursor()
 
-        if sqlsystem == "SQLITE":
-            self.database = "DataBase/phonebook.db"
-            self.conn = self.dataBaseOpenSqlite()
-
-        if sqlsystem == "MYSQL" or sqlsystem == "MARIA":
-            self.database = "phonebook"
-            self.conn = self.dataBaseOpenMySqldb()
-
-        if sqlsystem == "POSTGRE":
-            self.database = "phonebook"
-            self.conn = self.dataBaseOpenPostgre()
-
-    def dataBaseOpenSqlite(self):
-        """
-        Соединение с базой данных Sqlite
-        :return: conn
-        """
+    def insert(self, query):
         try:
-            if os.path.exists(self.database):
-                conn = sqlite3.connect(self.database)
-                return conn
-            else:
-                raise sqlite3.OperationalError("База данных не существует")
-        except sqlite3.OperationalError:
-            print("База не доступна")
-            sys.exit(app.exec_())
+            self.cur.execute(query)
+            self.conn.commit()
+        except Exception as ex:
+            self.conn.rollback()
 
-
-    def dataBaseOpenMySqldb(self):
-        """
-        Соединение с базой данных Sqlite
-        :return: conn
-        """
+    def update(self, query):
         try:
-            conn = MySQLdb.connect(
-                host="localhost",
-                user="user1",
-                passwd="password1",
-                db="phonebook")
-            return conn
-        except MySQLdb.OperationalError:
-            print("База не доступна")
-            sys.exit(app.exec_())
+            self.cur.execute(query)
+            self.conn.commit()
+        except Exception as ex:
+            self.conn.rollback()
 
-    def dataBaseOpenPostgre(self):
-        """
-         Соединение с базой данных Sqlite
-         :return: conn
-         """
+    def delete(self, query):
         try:
-            conn = psycopg2.connect(
-                database="studentdb",
-                user="user1",
-                password="password1",
-                host="127.0.0.1",
-                port="5432"
-                )
-            return conn
-        except psycopg2.OperationalError:
-            print("База не доступна")
-            sys.exit(app.exec_())
+            self.cur.execute(query)
+            self.conn.commit()
+        except Exception as ex:
+            self.conn.rollback()
+
+    def read(self, query):
+        try:
+            self.cur.execute(query)
+        except Exception as ex:
+            print("Ошибка чтения данных")
+
+    def search(self, query):
+        try:
+            self.cur.execute(query)
+        except Exception as ex:
+            print("Ощибка поиска")
+
+    def __del__(self):
+        self.conn.close()
 
 class MessageBox(QMessageBox):
     def __init__(self):
@@ -97,9 +81,10 @@ class MessageBox(QMessageBox):
         self.setIcon(QMessageBox.Information)
         self.setStandardButtons(QMessageBox.Close)
 
-class BaseForm(QDialog, DataBaseConnection):
+class BaseForm(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
         self.message = QMessageBox()
@@ -198,23 +183,16 @@ class BaseForm(QDialog, DataBaseConnection):
         :param sqlStatement:
         :return:
         """
-        try:
-            cur = self.conn.cursor()
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            row = 0
-            self.ui.tableWidget.setRowCount(len(rows))
-            for person in rows:
-                print(" .", person)
-                self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
-                self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
-                self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
-                row += 1
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Произошла ошибка операции удаления")
-            self.message.show()
-
+        self.db.search(sqlStatement)
+        rows = self.db.cur.fetchall()
+        row = 0
+        self.ui.tableWidget.setRowCount(len(rows))
+        for person in rows:
+            print(" .", person)
+            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
+            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
+            row += 1
 
     def gotoWelcome(self):
         """
@@ -272,9 +250,10 @@ class MyFormUser(BaseForm):
 
         self.SearchRows()
 
-class AllUserForm(QDialog, DataBaseConnection):
+class AllUserForm(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_AllUserTableDialog()
         self.ui.setupUi(self)
         self.ui.HeadLabel.text()
@@ -306,24 +285,15 @@ class AllUserForm(QDialog, DataBaseConnection):
         email = self.ui.emailLineEdit.text()
         query = f"SELECT * FROM users WHERE email='{email}'"
         query_delete = f"DELETE from users WHERE email='{email}'"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            row = cur.fetchone()
-            if row == None:
-                print("Нет такого контакта в таблице")
-            else:
-                print("Есть такая информайия о контакте")
-                cur.execute(query_delete) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                print("Контакт удален!")
-                self.conn.commit()
-                self.editLineClear()
-                self.loadUser()
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Произошла ошибка операции удаления")
-            self.message.show()
-
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        if row == None:
+            print("Нет такого контакта в таблице")
+        else:
+            print("Есть такая информайия о контакте")
+            self.db.delete(query_delete)
+            self.editLineClear()
+            self.loadUser()
 
     def cellClick(self, row, col):
         """
@@ -346,24 +316,19 @@ class AllUserForm(QDialog, DataBaseConnection):
         :return:
         """
         sqlStatement = f"SELECT email, password, save from users ORDER By email"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            row = 0
-            self.ui.userTableWidget.setRowCount(len(rows))
-            for person in rows:
-                self.ui.userTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
-                self.ui.userTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
-                self.ui.userTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
-                row += 1
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Произошла ошибка операции удаления")
-            self.message.show()
+        self.db.read(sqlStatement)
+        rows = self.db.cur.fetchall()
+        row = 0
+        self.ui.userTableWidget.setRowCount(len(rows))
+        for person in rows:
+            self.ui.userTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.userTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
+            self.ui.userTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
+            row += 1
 
 class InheretensFormTableAdmin(MyFormUser):
     def __init__(self):
+        self.db = DataBase()
         super().__init__()
         self.ui = Ui_TableDialog2()
         self.ui.setupUi(self)
@@ -457,18 +422,10 @@ class InheretensFormTableAdmin(MyFormUser):
         nomer = self.ui.nomerLineEdit.text()
         birthday = self.ui.dayLineEdit.text()
         query = f"INSERT INTO phonebook (name, nomer, birthday) VALUES ('{name}', '{nomer}', '{birthday}')"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            self.conn.commit()
-            self.editLineClear()
-            print("Добавлена успешно!")
-            self.SearchRows_All()
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Произошла ошибка доступа")
-            self.message.show()
-            print("Произошла ошибка доступа")
+        self.db.insert(query)
+        self.editLineClear()
+        print("Добавлена успешно!")
+        self.SearchRows_All()
 
     def updateRecord(self):
         """
@@ -481,59 +438,37 @@ class InheretensFormTableAdmin(MyFormUser):
         query = f"SELECT * from phonebook where name='{name}'"
         query_update = f"UPDATE phonebook SET nomer='{nomer}', birthday='{birthday}'" \
                        f" WHERE name='{name}'"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            row = cur.fetchone()
-            if row == None:
-                print("Нет такой фамилии в таблице")
-            else:
-                print("Есть такая фамилия")
-                name = row[1]
-                print(name)
-                try:
-                    cur = self.conn.cursor()
-                    cur.execute(query_update)
-                    self.conn.commit()
-                    self.editLineClear()
-                    self.SearchRows_All()
-                    print("Изменения проведены успешно")
-                except MySQLdb.OperationalError:
-                    print("Ошибка")
-        except MySQLdb.OperationalError:
-            print("Ошибка")
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        if row == None:
+            print("Нет такой фамилии в таблице")
+        else:
+            print("Есть такая фамилия")
+            name = row[1]
+            print(name)
+            self.db.update(query_update)
+            self.editLineClear()
+            self.SearchRows_All()
+            print("Изменения проведены успешно")
 
     def deleteRecord(self):
         name = self.ui.nameLineEdit.text()
         query = f"SELECT * FROM phonebook WHERE name='{name}'"
         query_delete = f"DELETE from phonebook WHERE name='{name}'"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(query)
-            row = cur.fetchone()
-            if row == None:
-                print("Нет такого контакта в таблице")
-            else:
-                print("Есть такая информайия о контакте")
-                try:
-                    cur = self.conn.cursor()
-                    cur.execute(query_delete)
-                    print("Контакт удален!")
-                    self.conn.commit()
-                    self.editLineClear()
-                    self.SearchRows_All()
-                except sqlite3.IntegrityError:
-                    self.conn.rollback()
-                    self.message.setInformativeText("Произошла ошибка операции удаления")
-                    self.message.show()
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Произошла ошибка операции удаления")
-            self.message.show()
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        if row == None:
+            print("Нет такого контакта в таблице")
+        else:
+            print("Есть такая информайия о контакте")
+            self.db.delete(query_delete)
+            self.editLineClear()
+            self.SearchRows_All()
 
-class WelcomeScreen(QDialog, DataBaseConnection):
+class WelcomeScreen(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.message = QMessageBox()
@@ -562,20 +497,13 @@ class WelcomeScreen(QDialog, DataBaseConnection):
     def startSave(self):
         global saveuser, savepassword
         query = f"SELECT email, password, save FROM users WHERE save='1'"
-        try:
-             cur = self.conn.cursor()
-             cur.execute(query)
-             row = cur.fetchone()
-             if row == None:
-                 print("Нет запомненного пользователя!", row)
-             else:
-                 self.ui.nameuserLineEdit.setText(row[0])
-                 self.ui.passwordLineEdit.setText(row[1])
-        except MySQLdb.IntegrityError:
-             self.conn.rollback()
-             self.message.setInformativeText("Произошла ошибка доступа")
-             self.message.show()
-             print("Произошла ошибка доступа")
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        if row == None:
+             print("Нет запомненного пользователя!", row)
+        else:
+             self.ui.nameuserLineEdit.setText(row[0])
+             self.ui.passwordLineEdit.setText(row[1])
 
     def saveMe(self):
         if self.ui.saveMeCheckBox.isChecked() == True:
@@ -589,30 +517,16 @@ class WelcomeScreen(QDialog, DataBaseConnection):
             print("email", email)
             save = "1"
             query = f"SELECT * from users where email='{email}'"
-            try:
-                cur = self.conn.cursor()
-                cur.execute(query)
-                row = cur.fetchone()
-                if row == None:
-                    print("Нет такой фамилии в таблице", row)
-                else:
-                    name = row[0]
-                    print("Есть такая фамилия", name)
-                    query_update = f"UPDATE users SET save='{save}' WHERE email='{email}'"
-                    try:
-                        cur = self.conn.cursor()
-                        cur.execute(query_update)
-                        self.conn.commit()
-                        print("Изменения проведены успешно")
-                    except MySQLdb.IntegrityError:
-                        self.conn.rollback()
-                        self.message.setInformativeText("Ошибка операции изменения записи")
-                        self.message.show()
-            except sqlite3.IntegrityError:
-                self.conn.rollback()
-                self.message.setInformativeText("Ошибка операции изменения записи")
-                self.message.show()
-
+            self.db.read(query)
+            row = self.db.cur.fetchone()
+            if row == None:
+                print("Нет такой фамилии в таблице", row)
+            else:
+                name = row[0]
+                print("Есть такая фамилия", name)
+                query_update = f"UPDATE users SET save='{save}' WHERE email='{email}'"
+                self.db.update(query_update)
+                print("Изменения проведены успешно")
 
     def dispAmount(self):
         """
@@ -634,37 +548,31 @@ class WelcomeScreen(QDialog, DataBaseConnection):
             self.message.setInformativeText("Заполните все поля правильно!")
             self.message.show()
         else:
-            try:
-                cur = self.conn.cursor()
-                cur.execute(query)
-                row = cur.fetchone()
-                print("..row..: ", row)
-                if row == None:
-                    self.message.setInformativeText("Такого пользователя нет!")
-                    self.message.show()
-                elif row != [] and row[0] == password:
-                    print("Successfull logged it!", user)
-                    if user == 'admin':  #'admin@admin.com':
-                        saveuser = user
-                        savepassword = password
-                        self.saveUser(saveuser)
-                        mytable = InheretensFormTableAdmin()
-                    else:
-                        saveuser = user
-                        savepassword = password
-                        self.saveUser(saveuser)
-                        print(user, password)
-                        mytable = MyFormUser()
-                        print(saveuser, savepassword)
-                        print("а это было", saveuser, savepassword)
-                    widget.addWidget(mytable)
-                    widget.setCurrentIndex(widget.currentIndex() + 1)
+            self.db.read(query)
+            row = self.db.cur.fetchone()
+            print("..row..: ", row)
+            if row == None:
+                self.message.setInformativeText("Такого пользователя нет!")
+                self.message.show()
+            elif row != [] and row[0] == password:
+                print("Successfull logged it!", user)
+                if user == 'admin':  #'admin@admin.com':
+                    saveuser = user
+                    savepassword = password
+                    self.saveUser(saveuser)
+                    mytable = InheretensFormTableAdmin()
                 else:
-                    self.message.setInformativeText("Ошибка имени или пароля!")
-                    self.message.show()
-            except MySQLdb.IntegrityError:
-                self.conn.rollback()
-                self.message.setInformativeText("Ошибка операции изменения записи")
+                    saveuser = user
+                    savepassword = password
+                    self.saveUser(saveuser)
+                    print(user, password)
+                    mytable = MyFormUser()
+                    print(saveuser, savepassword)
+                    print("а это было", saveuser, savepassword)
+                widget.addWidget(mytable)
+                widget.setCurrentIndex(widget.currentIndex() + 1)
+            else:
+                self.message.setInformativeText("Ошибка имени или пароля!")
                 self.message.show()
 
     def gotoBirthDayOnWeek(self):
@@ -691,9 +599,10 @@ class WelcomeScreen(QDialog, DataBaseConnection):
     def gotoExit(self):
         sys.exit(app.exec_())
 
-class ChangePassword(QDialog, DataBaseConnection):
+class ChangePassword(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_RenewPasswordDialog()
         self.ui.setupUi(self)
         self.ui.recoveryPasswordPushButton.clicked.connect(self.renewPasswordFunction)
@@ -725,34 +634,26 @@ class ChangePassword(QDialog, DataBaseConnection):
                          f" password='{old_password}'"
         updateStament = f" UPDATE users set password='{new_password}' " \
                         f" WHERE email='{email}'"
-        try:
-            cur = self.conn.cursor()
-            cur.execute(selectStament)
-            row = cur.fetchone()
-            print("row:", row)
-            if row == None:
-                self.message.setInformativeText("Некорректный email или password!")
-                self.message.show()
-            elif new_password == renew_password:
-                try:
-                    cur = self.conn.cursor()
-                    cur.execute(updateStament)
-                    self.conn.commit()
-                    self.message.setStyleSheet("background-color: green;")
-                    self.message.setText("Пароль изменен!")
-                    self.message.setInformativeText(f"Вы успешно изменили пароль")
-                    self.message.show()
-                    self.gotoWelcome()
-                except MySQLdb.IntegrityError as e:
-                    print("Error in accessing", e)
-            else:
-                print("Два пароля не совпадают")
-        except MySQLdb.IntegrityError as e:
-            print("Error in accessing", e)
+        self.db.read(selectStament)
+        row = self.db.cur.fetchone()
+        print("row:", row)
+        if row == None:
+            self.message.setInformativeText("Некорректный email или password!")
+            self.message.show()
+        elif new_password == renew_password:
+            self.db.update(updateStament)
+            self.message.setStyleSheet("background-color: green;")
+            self.message.setText("Пароль изменен!")
+            self.message.setInformativeText(f"Вы успешно изменили пароль")
+            self.message.show()
+            self.gotoWelcome()
+        else:
+            print("Два пароля не совпадают")
 
-class RecoveryPassword(QDialog, DataBaseConnection):
+class RecoveryPassword(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_RecoveryPasswordDialog()
         self.ui.setupUi(self)
         self.ui.recoveryPasswordPushButton.clicked.connect(self.recoverysignupFunction)
@@ -811,28 +712,25 @@ class RecoveryPassword(QDialog, DataBaseConnection):
         """
         user = self.ui.adresEmailField.text()
         query = f"SELECT * FROM users WHERE email='{user}'"
-        try:
-             cur = self.conn.cursor()
-             cur.execute(query)
-             row = cur.fetchone()
-             print(row)
-             if row == None:
-                 self.message.setInformativeText("Такого пользователя нет!")
-                 self.message.show()
-             elif row != []:
-                 parol = row[2]
-                 mail_addr = row[1]
-                 self.send_mail(mail_addr, parol)
-                 self.gotoWelcome()
-             else:
-                 self.message.setInformativeText("Ошибка имени или пароля!")
-                 self.message.show()
-        except MySQLdb.IntegrityError:
-             self.conn.rollback()
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        print(row)
+        if row == None:
+            self.message.setInformativeText("Такого пользователя нет!")
+            self.message.show()
+        elif row != []:
+            parol = row[2]
+            mail_addr = row[1]
+            self.send_mail(mail_addr, parol)
+            self.gotoWelcome()
+        else:
+            self.message.setInformativeText("Ошибка имени или пароля!")
+            self.message.show()
 
-class CreateAccScreen(QDialog, DataBaseConnection):
+class CreateAccScreen(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_SignUpDialog()
         self.ui.setupUi(self)
         self.ui.passwordField.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -873,20 +771,12 @@ class CreateAccScreen(QDialog, DataBaseConnection):
             self.message.show()
 
         else:
-            try:
-                cur = self.conn.cursor()
-                cur.execute(query)
-                self.conn.commit()
-                self.message.setStyleSheet("background-color: green;")
-                self.message.setText("Успешная регистрация!")
-                self.message.setInformativeText(f"Вы успешно зарегистрированы с ником - {user}")
-                self.message.show()
-                self.gotoWelcome()
-
-            except MySQLdb.IntegrityError:
-                self.conn.rollback()
-                self.message.setInformativeText("Пользователь с таким именем уже есть")
-                self.message.show()
+            self.db.insert(query)
+            self.message.setStyleSheet("background-color: green;")
+            self.message.setText("Успешная регистрация!")
+            self.message.setInformativeText(f"Вы успешно зарегистрированы с ником - {user}")
+            self.message.show()
+            self.gotoWelcome()
 
 class HelpScreen(QDialog):
     def __init__(self):
@@ -905,9 +795,10 @@ class HelpScreen(QDialog):
         widget.addWidget(welcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-class BirthDayOnWeek(QDialog, DataBaseConnection):
+class BirthDayOnWeek(QDialog):
     def __init__(self):
-        super().__init__(sqlsystem="MARIA")
+        self.db = DataBase()
+        super().__init__()
         self.ui = Ui_BirthDayTableDialog()
         self.ui.setupUi(self)
 
@@ -936,39 +827,33 @@ class BirthDayOnWeek(QDialog, DataBaseConnection):
         :return:
         """
 
-        if self.sqlsystem == "MARIA":
-            sqlStatement = f"SELECT name, nomer, birthday from phonebook " \
-                           f"WHERE DAYOFYEAR(birthday)" \
-                           f" BETWEEN DAYOFYEAR(NOW()) AND DAYOFYEAR(DATE_ADD(NOW(), INTERVAL 1 WEEK))" \
-                           f" ORDER BY DAYOFYEAR(birthday)"
 
-        if self.sqlsystem == "SQLITE":
-            sqlStatement = f"SELECT name,nomer, birthday from phonebook" \
-                           f" WHERE (strftime('%m-%d', birthday) " \
-                           f" between strftime('%m-%d', date('now', 'weekday 0', '-6 days')) and " \
-                           f" strftime('%m-%d', date('now', 'weekday 0', '-6 days', '+13 days'))) " \
-                           f"ORDER BY strftime('%m-%d',birthday)"
+        sqlStatement = f"SELECT name, nomer, birthday from phonebook " \
+                       f"WHERE DAYOFYEAR(birthday)" \
+                       f" BETWEEN DAYOFYEAR(NOW()) AND DAYOFYEAR(DATE_ADD(NOW(), INTERVAL 1 WEEK))" \
+                       f" ORDER BY DAYOFYEAR(birthday)"
 
-        try:
-            cur = self.conn.cursor()
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            print('=========^ rows: ',rows)
-            row = 0
-            self.ui.tableWidget.setRowCount(len(rows))
-            for person in rows:
-                self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
-                self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
-                self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
-                row += 1
-        except MySQLdb.IntegrityError:
-            self.conn.rollback()
-            self.message.setInformativeText("Пользователь с таким именем уже есть")
-            self.message.show()
+        #if self.sqlsystem == "SQLITE":
+        #    sqlStatement = f"SELECT name,nomer, birthday from phonebook" \
+        #                   f" WHERE (strftime('%m-%d', birthday) " \
+        #                   f" between strftime('%m-%d', date('now', 'weekday 0', '-6 days')) and " \
+        #                   f" strftime('%m-%d', date('now', 'weekday 0', '-6 days', '+13 days'))) " \
+        #                   f"ORDER BY strftime('%m-%d',birthday)"
+
+        self.db.read(sqlStatement)
+        rows = self.db.cur.fetchall()
+        print('=========^ rows: ',rows)
+        row = 0
+        self.ui.tableWidget.setRowCount(len(rows))
+        for person in rows:
+            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
+            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
+            row += 1
 
 if __name__=='__main__':
     app = QApplication(sys.argv)
-    if DataBaseConnection("MARIA"):
+    if DataBase():
         welcome = WelcomeScreen()
         widget = QtWidgets.QStackedWidget()
         widget.addWidget(welcome)
