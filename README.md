@@ -10,12 +10,12 @@
    
 3. База данных
 
- Field    Type         Null     Key     Default  Extra
+ Field       Type         Null     Key     Default  Extra                                                              
+ "id"        int(11)      NONULL   PRIKEY  NULL     AI                                                                 
+ "name"      varchar(100) YES              NULL                                                                        
+ "nomer"     char(12)     YES      UNI     NULL                                                                        
+ "birthday"  date         YES              NULL                                                                        
 
- id       int(11)      NONULL   PRIKEY  NULL     AI
- name     varchar(100) YES              NULL
- nomer    char(12)     YES      UNI     NULL
- birthday date         YES              NULL
 
 4. Запуск
 - python  main.py
