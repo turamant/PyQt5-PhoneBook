@@ -13,10 +13,9 @@
  Field    Type         Null     Key     Default  Extra
 
  id       int(11)      NONULL   PRIKEY  NULL     auto_increment
- name     varchar(100) YES              NULL    
- nomer    char(12)     YES      UNI     NULL    
- birthday date         YES              NULL 
-
+ name     varchar(100) YES              NULL                   
+ nomer    char(12)     YES      UNI     NULL                   
+ birthday date         YES              NULL                   
    
 4. Запуск
 - python  main.py
