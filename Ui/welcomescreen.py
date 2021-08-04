@@ -21,39 +21,34 @@ class Ui_Dialog(object):
         self.widget.setStyleSheet("background-color: rgb(232, 232, 232);")
         self.widget.setObjectName("widget")
         self.labelWelcom = QtWidgets.QLabel(self.widget)
-        self.labelWelcom.setGeometry(QtCore.QRect(380, 60, 551, 131))
+        self.labelWelcom.setGeometry(QtCore.QRect(370, 110, 551, 131))
         self.labelWelcom.setStyleSheet("font: 28pt \"DejaVu Math TeX Gyre\";\n"
 "color: black;")
         self.labelWelcom.setObjectName("labelWelcom")
-        self.errorLabel = QtWidgets.QLabel(self.widget)
-        self.errorLabel.setGeometry(QtCore.QRect(380, 390, 461, 71))
-        self.errorLabel.setStyleSheet("color: red;\n"
-"font: 14pt \"Cantarell\";")
-        self.errorLabel.setText("")
-        self.errorLabel.setObjectName("errorLabel")
         self.loginPushButton = QtWidgets.QPushButton(self.widget)
         self.loginPushButton.setGeometry(QtCore.QRect(240, 480, 191, 51))
-        self.loginPushButton.setStyleSheet("border-radius:20px;\n"
+        self.loginPushButton.setStyleSheet("\n"
 "font: 18pt \"Cantarell\";\n"
-"background-color: green;")
+"background-color: rgb(232, 232, 232);")
         self.loginPushButton.setObjectName("loginPushButton")
         self.signupPushButton = QtWidgets.QPushButton(self.widget)
         self.signupPushButton.setGeometry(QtCore.QRect(490, 480, 211, 51))
-        self.signupPushButton.setStyleSheet("border-radius:20px;\n"
+        self.signupPushButton.setStyleSheet("\n"
 "font: 18pt \"Cantarell\";\n"
-"background-color: grey;")
+"background-color: rgb(232, 232, 232);")
         self.signupPushButton.setObjectName("signupPushButton")
         self.cancelPushButton = QtWidgets.QPushButton(self.widget)
         self.cancelPushButton.setGeometry(QtCore.QRect(760, 480, 211, 51))
-        self.cancelPushButton.setStyleSheet("border-radius:20px;\n"
+        self.cancelPushButton.setStyleSheet("background-color: rgb(232, 232, 232);\n"
+"\n"
 "font: 18pt \"Cantarell\";\n"
-"background-color: red;")
+"")
         self.cancelPushButton.setObjectName("cancelPushButton")
         self.nameuserLineEdit = QtWidgets.QLineEdit(self.widget)
-        self.nameuserLineEdit.setGeometry(QtCore.QRect(380, 210, 461, 71))
+        self.nameuserLineEdit.setGeometry(QtCore.QRect(370, 260, 461, 71))
         self.nameuserLineEdit.setObjectName("nameuserLineEdit")
         self.passwordLineEdit = QtWidgets.QLineEdit(self.widget)
-        self.passwordLineEdit.setGeometry(QtCore.QRect(380, 310, 461, 71))
+        self.passwordLineEdit.setGeometry(QtCore.QRect(370, 360, 461, 71))
         self.passwordLineEdit.setObjectName("passwordLineEdit")
         self.saveMeCheckBox = QtWidgets.QCheckBox(self.widget)
         self.saveMeCheckBox.setGeometry(QtCore.QRect(470, 550, 291, 71))
@@ -79,7 +74,7 @@ class Ui_Dialog(object):
         self.changePasswordPushButton.setObjectName("changePasswordPushButton")
         self.helpPushButton = QtWidgets.QPushButton(self.widget)
         self.helpPushButton.setGeometry(QtCore.QRect(1060, 10, 113, 36))
-        self.helpPushButton.setStyleSheet("background-color: rgb(8, 255, 16);")
+        self.helpPushButton.setStyleSheet("background-color: rgb(232, 232, 232);")
         self.helpPushButton.setObjectName("helpPushButton")
 
         self.retranslateUi(Dialog)

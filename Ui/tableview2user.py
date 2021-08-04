@@ -20,7 +20,7 @@ class Ui_TableDialog2(object):
         self.ABsearchPushButton_1.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.ABsearchPushButton_1.setObjectName("ABsearchPushButton_1")
         self.nameLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.nameLineEdit.setGeometry(QtCore.QRect(960, 380, 221, 36))
+        self.nameLineEdit.setGeometry(QtCore.QRect(960, 440, 221, 36))
         self.nameLineEdit.setObjectName("nameLineEdit")
         self.familyLabel = QtWidgets.QLabel(TableDialog2)
         self.familyLabel.setGeometry(QtCore.QRect(800, 710, 171, 41))
@@ -29,7 +29,7 @@ class Ui_TableDialog2(object):
         self.tableWidget = QtWidgets.QTableWidget(TableDialog2)
         self.tableWidget.setGeometry(QtCore.QRect(140, 20, 701, 751))
         self.tableWidget.setRowCount(1000)
-        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setObjectName("tableWidget")
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
@@ -37,8 +37,10 @@ class Ui_TableDialog2(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
         self.nomerLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.nomerLineEdit.setGeometry(QtCore.QRect(960, 430, 221, 36))
+        self.nomerLineEdit.setGeometry(QtCore.QRect(960, 490, 221, 36))
         self.nomerLineEdit.setObjectName("nomerLineEdit")
         self.OPsearchPushButton_7 = QtWidgets.QPushButton(TableDialog2)
         self.OPsearchPushButton_7.setGeometry(QtCore.QRect(20, 260, 113, 36))
@@ -89,61 +91,70 @@ class Ui_TableDialog2(object):
         self.IEsearchPushButton_12.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.IEsearchPushButton_12.setObjectName("IEsearchPushButton_12")
         self.addPushButton = QtWidgets.QPushButton(TableDialog2)
-        self.addPushButton.setGeometry(QtCore.QRect(900, 650, 261, 36))
+        self.addPushButton.setGeometry(QtCore.QRect(960, 590, 221, 36))
         self.addPushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "background-color: rgb(15, 159, 7);\n"
 "color: rgb(0, 85, 0);")
         self.addPushButton.setObjectName("addPushButton")
         self.dayLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.dayLineEdit.setGeometry(QtCore.QRect(960, 480, 221, 36))
+        self.dayLineEdit.setGeometry(QtCore.QRect(960, 540, 221, 36))
         self.dayLineEdit.setObjectName("dayLineEdit")
         self.AZsearchPushButton_14 = QtWidgets.QPushButton(TableDialog2)
         self.AZsearchPushButton_14.setGeometry(QtCore.QRect(20, 540, 113, 36))
         self.AZsearchPushButton_14.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.AZsearchPushButton_14.setObjectName("AZsearchPushButton_14")
         self.updatePushButton = QtWidgets.QPushButton(TableDialog2)
-        self.updatePushButton.setGeometry(QtCore.QRect(900, 690, 261, 36))
+        self.updatePushButton.setGeometry(QtCore.QRect(960, 630, 221, 36))
         self.updatePushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "background-color: rgb(255, 238, 51);\n"
 "color: rgb(0, 85, 0);")
         self.updatePushButton.setObjectName("updatePushButton")
         self.deletePushButton = QtWidgets.QPushButton(TableDialog2)
-        self.deletePushButton.setGeometry(QtCore.QRect(900, 730, 261, 36))
+        self.deletePushButton.setGeometry(QtCore.QRect(960, 670, 221, 36))
         self.deletePushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "background-color: rgb(255, 22, 5);\n"
 "color: rgb(0, 85, 0);")
         self.deletePushButton.setObjectName("deletePushButton")
         self.nameLabel_2 = QtWidgets.QLabel(TableDialog2)
-        self.nameLabel_2.setGeometry(QtCore.QRect(860, 390, 81, 21))
+        self.nameLabel_2.setGeometry(QtCore.QRect(860, 450, 81, 21))
         self.nameLabel_2.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "color: rgb(23, 35, 255);")
         self.nameLabel_2.setObjectName("nameLabel_2")
         self.nomerLabel_3 = QtWidgets.QLabel(TableDialog2)
-        self.nomerLabel_3.setGeometry(QtCore.QRect(860, 440, 81, 21))
+        self.nomerLabel_3.setGeometry(QtCore.QRect(860, 500, 81, 21))
         self.nomerLabel_3.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "color: rgb(31, 23, 255);")
         self.nomerLabel_3.setObjectName("nomerLabel_3")
         self.dayLabel_4 = QtWidgets.QLabel(TableDialog2)
-        self.dayLabel_4.setGeometry(QtCore.QRect(860, 490, 81, 21))
+        self.dayLabel_4.setGeometry(QtCore.QRect(860, 550, 81, 21))
         self.dayLabel_4.setStyleSheet("font: 10pt \"Cantarell\";\n"
 "color: rgb(39, 24, 255);")
         self.dayLabel_4.setObjectName("dayLabel_4")
         self.ALLsearchPushButton_16 = QtWidgets.QPushButton(TableDialog2)
-        self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(20, 730, 101, 36))
+        self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(10, 695, 121, 71))
         self.ALLsearchPushButton_16.setStyleSheet("selection-background-color: rgb(255, 7, 32);\n"
-"background-color: rgb(255, 100, 10);\n"
-"font: 8pt \"Cantarell\";")
+"background-color: rgb(232, 232, 232);\n"
+"font: 10pt \"Cantarell\";")
         self.ALLsearchPushButton_16.setObjectName("ALLsearchPushButton_16")
         self.userPushButton = QtWidgets.QPushButton(TableDialog2)
-        self.userPushButton.setGeometry(QtCore.QRect(910, 250, 211, 36))
-        self.userPushButton.setStyleSheet("color: rgb(255, 19, 2);\n"
-"background-color: rgb(6, 214, 255);")
+        self.userPushButton.setGeometry(QtCore.QRect(880, 250, 281, 36))
+        self.userPushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"background-color: rgb(232, 232, 232);")
         self.userPushButton.setObjectName("userPushButton")
         self.birthDayPushButtn = QtWidgets.QPushButton(TableDialog2)
         self.birthDayPushButtn.setGeometry(QtCore.QRect(880, 300, 281, 36))
-        self.birthDayPushButtn.setStyleSheet("color: rgb(255, 80, 21);\n"
-"font: 10pt \"Cantarell\";")
+        self.birthDayPushButtn.setStyleSheet("\n"
+"font: 10pt \"Cantarell\";\n"
+"background-color: rgb(232, 232, 232);")
         self.birthDayPushButtn.setObjectName("birthDayPushButtn")
+        self.idNameLabel_1 = QtWidgets.QLabel(TableDialog2)
+        self.idNameLabel_1.setGeometry(QtCore.QRect(870, 400, 81, 21))
+        self.idNameLabel_1.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"color: rgb(23, 35, 255);")
+        self.idNameLabel_1.setObjectName("idNameLabel_1")
+        self.idLineEdit_1 = QtWidgets.QLineEdit(TableDialog2)
+        self.idLineEdit_1.setGeometry(QtCore.QRect(960, 390, 221, 36))
+        self.idLineEdit_1.setObjectName("idLineEdit_1")
 
         self.retranslateUi(TableDialog2)
         QtCore.QMetaObject.connectSlotsByName(TableDialog2)
@@ -154,10 +165,12 @@ class Ui_TableDialog2(object):
         self.ABsearchPushButton_1.setText(_translate("TableDialog2", "АБ"))
         self.nameLineEdit.setPlaceholderText(_translate("TableDialog2", "   Фамилия"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("TableDialog2", "Фамилия"))
+        item.setText(_translate("TableDialog2", "id"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("TableDialog2", "Телефон"))
+        item.setText(_translate("TableDialog2", "Фамилия"))
         item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("TableDialog2", "Телефон"))
+        item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("TableDialog2", "Дата р."))
         self.nomerLineEdit.setPlaceholderText(_translate("TableDialog2", "   Номер телефона"))
         self.OPsearchPushButton_7.setText(_translate("TableDialog2", "ОП"))
@@ -183,6 +196,8 @@ class Ui_TableDialog2(object):
         self.ALLsearchPushButton_16.setText(_translate("TableDialog2", "Все контакты"))
         self.userPushButton.setText(_translate("TableDialog2", "Все пользователи"))
         self.birthDayPushButtn.setText(_translate("TableDialog2", "Дни рождения в этом месяце"))
+        self.idNameLabel_1.setText(_translate("TableDialog2", "id"))
+        self.idLineEdit_1.setPlaceholderText(_translate("TableDialog2", "   id"))
 
 
 if __name__ == "__main__":
