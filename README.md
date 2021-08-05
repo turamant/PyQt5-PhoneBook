@@ -1,14 +1,15 @@
-<h2>Справочник PhoneBook v.1.1</h2>
+<h2>Handbook PhoneBook v.1.1</h2>
 
-1. Требования
-Для работы сервиса требуется:
+<h3>Requirements</h3>
     -  Python3 (3.6-3.9)
     -  MySql (MariaDB)
     
-2. Установка зависимостей
+<h3>Installation</h3>
+ python -m pip --upgrade pip
+ python -m pip install pipenv  
  pipenv install -r requirements.txt
    
-3. База данных
+<h3>Data base MariDB</h3>
 
  Field       Type         Null     Key     Default  Extra                                                              
  "id"        int(11)      NONULL   PRIKEY  NULL     AI                                                                 
@@ -17,8 +18,14 @@
  "birthday"  date         YES              NULL                                                                        
 
 
-4. Запуск
+<h3>How to use</h3>
 - python  main.py
+
+<h3>Tested on</h3>
+    Manjaro
+    Debian
+    Fedora
+
 
 ![alt text](screenshots/1-1.jpg "Описание будет тут")
 ![alt text](screenshots/2.jpg "Описание будет тут")
