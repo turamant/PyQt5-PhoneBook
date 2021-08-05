@@ -24,3 +24,4 @@
 ![alt text](screenshots/2.jpg "Описание будет тут")
 ![alt text](screenshots/4.jpg "Описание будет тут")
 ![alt text](screenshots/5.jpg "Описание будет тут")
+![alt text](screenshots/6.png "Описание будет тут")
