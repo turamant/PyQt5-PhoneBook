@@ -33,5 +33,5 @@
 ![alt text](screenshots/2.jpg "Описание будет тут")
 ![alt text](screenshots/11.jpg "Описание будет тут")
 ![alt text](screenshots/4.jpg "Описание будет тут")
-![alt text](screenshots/12.jpg "Описание будет тут")
+![alt text](screenshots/21.jpg "Описание будет тут")
 

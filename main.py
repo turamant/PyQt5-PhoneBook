@@ -27,7 +27,7 @@ class DataBase:
     host = "localhost"
     user = "user1"
     passwd = "password1"
-    db = "new"           #"phonebook"
+    db = "phonebook"     #new  резервная
 
     def __init__(self):
         self.conn = MySQLdb.connect(self.host,
