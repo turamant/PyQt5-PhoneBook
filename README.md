@@ -1,30 +1,30 @@
 <h2>Handbook PhoneBook v.1.1</h2>
 
 <h3>Requirements</h3>
-    -  Python3 (3.6-3.9)
-    -  MySql (MariaDB)
+    <li>Python3 (3.6-3.9)</li>
+    <li>MySql (MariaDB)</li>
     
 <h3>Installation</h3>
- python -m pip --upgrade pip
- python -m pip install pipenv  
- pipenv install -r requirements.txt
+ <li>python -m pip --upgrade pip</li>
+ <li>python -m pip install pipenv</li>  
+ <li>pipenv install -r requirements.txt</li>
    
 <h3>Data base MariDB</h3>
 
- Field       Type         Null     Key     Default  Extra                                                              
- "id"        int(11)      NONULL   PRIKEY  NULL     AI                                                                 
- "name"      varchar(100) YES              NULL                                                                        
- "nomer"     char(12)     YES      UNI     NULL                                                                        
- "birthday"  date         YES              NULL                                                                        
+ <li>Field       Type         Null     Key     Default  Extra</li>                                                              
+ <li>"id"        int(11)      NONULL   PRIKEY  NULL     AI   </li>                                                               
+ <li>"name"      varchar(100) YES              NULL          </li>                                                              
+ <li>"nomer"     char(12)     YES      UNI     NULL          </li>                                                              
+ <li>"birthday"  date         YES              NULL          </li>                                                              
 
 
 <h3>How to use</h3>
-- python  main.py
+<li>python  main.py</li>
 
 <h3>Tested on</h3>
-    Manjaro
-    Debian
-    Fedora
+    <li>Manjaro</li>
+    <li>Debian</li>
+    <li>Fedora</li>
 
 
 ![alt text](screenshots/1-1.jpg "Описание будет тут")
