@@ -19,3 +19,8 @@
 
 4. Запуск
 - python  main.py
+
+![alt text](screenshots/1-1.jpg "Описание будет тут")
+![alt text](screenshots/2.jpg "Описание будет тут")
+![alt text](screenshots/4.jpg "Описание будет тут")
+![alt text](screenshots/5.jpg "Описание будет тут")
