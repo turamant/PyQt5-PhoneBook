@@ -26,9 +26,9 @@
     <li>Debian</li>
     <li>Fedora</li>
 
-
-![alt text](screenshots/1-1.jpg "Описание будет тут")
-![alt text](screenshots/2.jpg "Описание будет тут")
-![alt text](screenshots/4.jpg "Описание будет тут")
-![alt text](screenshots/5.jpg "Описание будет тут")
-![alt text](screenshots/6.jpg "Описание будет тут")
+<h3>Screen shots</h3>
+<li>![alt text](screenshots/1-1.jpg "Описание будет тут")</li>
+<li>![alt text](screenshots/2.jpg "Описание будет тут")</li>
+<li>![alt text](screenshots/4.jpg "Описание будет тут")</li>
+<li>![alt text](screenshots/5.jpg "Описание будет тут")</li>
+<li>![alt text](screenshots/6.jpg "Описание будет тут")</li>
