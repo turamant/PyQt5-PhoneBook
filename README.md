@@ -27,8 +27,10 @@
     <li>Fedora</li>
 
 ![alt text](screenshots/1-1.jpg "Описание будет тут")
+![alt text](screenshots/5.jpg "Описание будет тут")
 ![alt text](screenshots/2.jpg "Описание будет тут")
 ![alt text](screenshots/4.jpg "Описание будет тут")
-![alt text](screenshots/5.jpg "Описание будет тут")
 ![alt text](screenshots/6.jpg "Описание будет тут")
 ![alt text](screenshots/9.jpg "Описание будет тут")
+![alt text](screenshots/11.jpg "Описание будет тут")
+![alt text](screenshots/12.jpg "Описание будет тут")
