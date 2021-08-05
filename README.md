@@ -26,7 +26,6 @@
     <li>Debian</li>
     <li>Fedora</li>
 
-<h3>Screen shots</h3>
 ![alt text](screenshots/1-1.jpg "Описание будет тут")
 ![alt text](screenshots/2.jpg "Описание будет тут")
 ![alt text](screenshots/4.jpg "Описание будет тут")
