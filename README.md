@@ -26,6 +26,8 @@
     <li>Debian</li>
     <li>Fedora</li>
 
+<h3>Give it a Star</h3>
+If you find this repo useful , give it a star so as many people can get to know it.
 ![alt text](screenshots/1-1.jpg "Описание будет тут")
 ![alt text](screenshots/15.jpg "Описание будет тут")
 ![alt text](screenshots/6.jpg "Описание будет тут")
