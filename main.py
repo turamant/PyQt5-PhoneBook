@@ -29,6 +29,9 @@ class MessageBox(QMessageBox):
         self.setStandardButtons(QMessageBox.Close)
 
 class BaseForm(QDialog):
+    """
+    Основные методы работы с табличной формой TableWidget
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -110,6 +113,9 @@ class BaseForm(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
 
 class FormUser(BaseForm):
+    """
+    TableWidget для юзера, кнопки, таблица
+    """
     def __init__(self):
         super().__init__()
 
@@ -148,6 +154,9 @@ class FormUser(BaseForm):
         self.SearchRows()
 
 class AllUserForm(QDialog):
+    """
+    TableWidget для просмотра всех пользователей
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -222,6 +231,11 @@ class AllUserForm(QDialog):
             row += 1
 
 class FormAdmin(FormUser):
+    """
+    TableWidget для administrator  наследуемый,
+     расширенный кнопками, полями ввода.
+     Добавлены и переопределены методы
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -357,6 +371,9 @@ class FormAdmin(FormUser):
             self.SearchRows_All()
 
 class WelcomeScreen(QDialog):
+    """
+    Для авторизации пользователей
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -477,6 +494,9 @@ class WelcomeScreen(QDialog):
         sys.exit(app.exec_())
 
 class ChangePassword(QDialog):
+    """
+    Для изменения пароля
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -530,6 +550,9 @@ class ChangePassword(QDialog):
             self.message.show()
 
 class RecoveryPassword(QDialog):
+    """
+    Для восстановления пароля, через @email
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -609,6 +632,9 @@ class RecoveryPassword(QDialog):
             self.message.show()
 
 class CreateAccScreen(QDialog):
+    """
+    Для регистрации новых пользователей
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -660,6 +686,9 @@ class CreateAccScreen(QDialog):
             self.gotoWelcome()
 
 class HelpScreen(QDialog):
+    """
+    Справочник пользователя
+    """
     def __init__(self):
         super().__init__()
         self.ui = Ui_HelpScreenDialog()
@@ -677,6 +706,10 @@ class HelpScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 class BirthDayOnWeek(QDialog):
+    """
+    TableWidget для вывода дней рождения от
+    текущей даты и вперед на неделю
+    """
     def __init__(self):
         self.db = DataBase()
         super().__init__()
