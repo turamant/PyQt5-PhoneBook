@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QDialog, QApplication,  QMessageBox
 
+from Model.handler import DataBase
 from Ui.tableview import Ui_TableDialog
 from Ui.tableview2user import Ui_TableDialog2
 
@@ -23,62 +24,7 @@ import sqlite3
 saveuser = ""
 savepassword = ""
 
-class DataBase:
-    host = "localhost"
-    user = "user1"
-    passwd = "password1"
-    db = "phonebook"     #new  резервная
 
-    def __init__(self):
-        self.conn = MySQLdb.connect(self.host,
-                                    self.user,
-                                    self.passwd,
-                                    self.db,
-                                    use_unicode=True,
-                                    charset="utf8")
-        self.cur = self.conn.cursor()
-
-    def insert(self, query):
-        try:
-            self.cur.execute(query)
-            self.conn.commit()
-            print("Изменения подтверждаю!")
-        except Exception as ex:
-            print("ОШИБКА insert !!!", ex)
-            self.conn.rollback()
-
-    def update(self, query):
-        try:
-            self.cur.execute(query)
-            self.conn.commit()
-            print("Изменения подтверждаю!")
-        except Exception as ex:
-            print("ОШИБКА update !!!", ex)
-            self.conn.rollback()
-
-    def delete(self, query):
-        try:
-            self.cur.execute(query)
-            self.conn.commit()
-            print("Изменения подтверждаю!")
-        except Exception as ex:
-            print("ОШИБКА delete !!!", ex)
-            self.conn.rollback()
-
-    def read(self, query):
-        try:
-            self.cur.execute(query)
-        except Exception as ex:
-            print("Ошибка чтения данных", ex)
-
-    def search(self, query):
-        try:
-            self.cur.execute(query)
-        except Exception as ex:
-            print("Ошибка поиска", ex)
-
-    def __del__(self):
-        self.conn.close()
 
 class MessageBox(QMessageBox):
     def __init__(self):
@@ -104,65 +50,14 @@ class BaseForm(QDialog):
         for line in self.list_line_edit:
             line.clear()
 
-    def SearchRows_1(self):
+    def SearchRows_Letter(self, a, b):
         """
         Слот - Передает sql в метод выборки SearchRows
         :return:
         """
-        sql = self.sqlBase('А', 'В')
+        sql = self.sqlBase(a, b)
         self.SearchRows(sql)
 
-    def SearchRows_2(self):
-        sql = self.sqlBase('В', 'Д')
-        self.SearchRows(sql)
-
-    def SearchRows_3(self):
-        sql = self.sqlBase('Д', 'Ж')
-        self.SearchRows(sql)
-
-    def SearchRows_4(self):
-        sql = self.sqlBase('Ж', 'К')
-        self.SearchRows(sql)
-
-    def SearchRows_5(self):
-        sql = self.sqlBase('К', 'М')
-        self.SearchRows(sql)
-
-    def SearchRows_6(self):
-        sql = self.sqlBase('М', 'О')
-        self.SearchRows(sql)
-
-    def SearchRows_7(self):
-        sql = self.sqlBase('О', 'Р')
-        self.SearchRows(sql)
-
-    def SearchRows_8(self):
-        sql = self.sqlBase('Р', 'Т')
-        self.SearchRows(sql)
-
-    def SearchRows_9(self):
-        sql = self.sqlBase('Т', 'Ф')
-        self.SearchRows(sql)
-
-    def SearchRows_10(self):
-        sql = self.sqlBase('Ф', 'Ц')
-        self.SearchRows(sql)
-
-    def SearchRows_11(self):
-        sql = self.sqlBase('Ц', 'Ъ')
-        self.SearchRows(sql)
-
-    def SearchRows_12(self):
-        sql = self.sqlBase('Ъ', 'Ю')
-        self.SearchRows(sql)
-
-    def SearchRows_13(self):
-        sql = self.sqlBase('Ю', 'Яяяя')
-        self.SearchRows(sql)
-
-    def SearchRows_14(self):
-        sql = self.sqlBase('A', 'zzz')
-        self.SearchRows(sql)
 
     def SearchRows_All(self):
         """
@@ -225,20 +120,20 @@ class MyFormUser(BaseForm):
         super().__init__()
 
         # Кнопки сортировки
-        self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
-        self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
-        self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
-        self.ui.GZIIsearchPushButton_4.clicked.connect(self.SearchRows_4)
-        self.ui.KLsearchPushButton_5.clicked.connect(self.SearchRows_5)
-        self.ui.MNsearchPushButton_6.clicked.connect(self.SearchRows_6)
-        self.ui.OPsearchPushButton_7.clicked.connect(self.SearchRows_7)
-        self.ui.RSsearchPushButton_8.clicked.connect(self.SearchRows_8)
-        self.ui.TYsearchPushButton_9.clicked.connect(self.SearchRows_9)
-        self.ui.FHsearchPushButton_10.clicked.connect(self.SearchRows_10)
-        self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
-        self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
-        self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
-        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+        self.ui.ABsearchPushButton_1.clicked.connect(lambda: self.SearchRows_Letter("А", "В"))
+        self.ui.VGsearchPushButton_2.clicked.connect(lambda: self.SearchRows_Letter("В", "Д"))
+        self.ui.DEsearchPushButton_3.clicked.connect(lambda: self.SearchRows_Letter("Д", "Ж"))
+        self.ui.GZIIsearchPushButton_4.clicked.connect(lambda: self.SearchRows_Letter("Ж", "К"))
+        self.ui.KLsearchPushButton_5.clicked.connect(lambda: self.SearchRows_Letter("К", "М"))
+        self.ui.MNsearchPushButton_6.clicked.connect(lambda: self.SearchRows_Letter("М", "О"))
+        self.ui.OPsearchPushButton_7.clicked.connect(lambda: self.SearchRows_Letter("О", "Р"))
+        self.ui.RSsearchPushButton_8.clicked.connect(lambda: self.SearchRows_Letter("Р", "Т"))
+        self.ui.TYsearchPushButton_9.clicked.connect(lambda: self.SearchRows_Letter("Т", "Ф"))
+        self.ui.FHsearchPushButton_10.clicked.connect(lambda: self.SearchRows_Letter("Ф", "Ц"))
+        self.ui.ZHSSsearchPushButton_11.clicked.connect(lambda: self.SearchRows_Letter("Ц", "Ъ"))
+        self.ui.IEsearchPushButton_12.clicked.connect(lambda: self.SearchRows_Letter("Ъ", "Ю"))
+        self.ui.YouYjasearchPushButton_13.clicked.connect(lambda: self.SearchRows_Letter("Ю", "Яя"))
+        self.ui.AZsearchPushButton_14.clicked.connect(lambda: self.SearchRows_Letter("A", "Zz"))
 
         self.ui.helpPushButton.clicked.connect(self.gotoHelp)
 
@@ -338,21 +233,21 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui = Ui_TableDialog2()
         self.ui.setupUi(self)
 
-        self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
-        self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
-        self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
-        self.ui.GZIIsearchPushButton_4.clicked.connect(self.SearchRows_4)
-        self.ui.KLsearchPushButton_5.clicked.connect(self.SearchRows_5)
-        self.ui.MNsearchPushButton_6.clicked.connect(self.SearchRows_6)
-        self.ui.OPsearchPushButton_7.clicked.connect(self.SearchRows_7)
-        self.ui.RSsearchPushButton_8.clicked.connect(self.SearchRows_8)
-        self.ui.TYsearchPushButton_9.clicked.connect(self.SearchRows_9)
-        self.ui.FHsearchPushButton_10.clicked.connect(self.SearchRows_10)
-        self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
-        self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
-        self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
-        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
-        self.ui.ALLsearchPushButton_16.clicked.connect(self.SearchRows_All)
+        # Кнопки сортировки
+        self.ui.ABsearchPushButton_1.clicked.connect(lambda: self.SearchRows_Letter("А", "В"))
+        self.ui.VGsearchPushButton_2.clicked.connect(lambda: self.SearchRows_Letter("В", "Д"))
+        self.ui.DEsearchPushButton_3.clicked.connect(lambda: self.SearchRows_Letter("Д", "Ж"))
+        self.ui.GZIIsearchPushButton_4.clicked.connect(lambda: self.SearchRows_Letter("Ж", "К"))
+        self.ui.KLsearchPushButton_5.clicked.connect(lambda: self.SearchRows_Letter("К", "М"))
+        self.ui.MNsearchPushButton_6.clicked.connect(lambda: self.SearchRows_Letter("М", "О"))
+        self.ui.OPsearchPushButton_7.clicked.connect(lambda: self.SearchRows_Letter("О", "Р"))
+        self.ui.RSsearchPushButton_8.clicked.connect(lambda: self.SearchRows_Letter("Р", "Т"))
+        self.ui.TYsearchPushButton_9.clicked.connect(lambda: self.SearchRows_Letter("Т", "Ф"))
+        self.ui.FHsearchPushButton_10.clicked.connect(lambda: self.SearchRows_Letter("Ф", "Ц"))
+        self.ui.ZHSSsearchPushButton_11.clicked.connect(lambda: self.SearchRows_Letter("Ц", "Ъ"))
+        self.ui.IEsearchPushButton_12.clicked.connect(lambda: self.SearchRows_Letter("Ъ", "Ю"))
+        self.ui.YouYjasearchPushButton_13.clicked.connect(lambda: self.SearchRows_Letter("Ю", "Яя"))
+        self.ui.AZsearchPushButton_14.clicked.connect(lambda: self.SearchRows_Letter("A", "Zz"))
 
         self.ui.userPushButton.clicked.connect(self.gotoAllUserForm)
         self.ui.birthDayPushButtn.clicked.connect(self.gotoBirthDayOnWeek)

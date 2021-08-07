@@ -3,3 +3,5 @@
 *.pyc
 Pipfile
 ../PhoneBook/q_123/DataBase/Pipfile.lock
+q**.py
+main_programm.py
