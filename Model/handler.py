@@ -20,7 +20,7 @@ class DataBase:
         try:
             self.cur.execute(query)
             self.conn.commit()
-            print("Изменения подтверждаю!")
+            print("Добавление в БД подтверждаю!")
         except Exception as ex:
             print("ОШИБКА insert !!!", ex)
             self.conn.rollback()

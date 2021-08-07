@@ -163,6 +163,7 @@ class Ui_TableDialog2(object):
         _translate = QtCore.QCoreApplication.translate
         TableDialog2.setWindowTitle(_translate("TableDialog2", "Dialog"))
         self.ABsearchPushButton_1.setText(_translate("TableDialog2", "АБ"))
+        self.nameLineEdit.setToolTip(_translate("TableDialog2", "Вводите только фамилию"))
         self.nameLineEdit.setPlaceholderText(_translate("TableDialog2", "   Фамилия"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("TableDialog2", "id"))
@@ -172,6 +173,8 @@ class Ui_TableDialog2(object):
         item.setText(_translate("TableDialog2", "Телефон"))
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("TableDialog2", "Дата р."))
+        self.nomerLineEdit.setToolTip(_translate("TableDialog2", "Ввводите номер"))
+        self.nomerLineEdit.setInputMask(_translate("TableDialog2", "9-9999999999"))
         self.nomerLineEdit.setPlaceholderText(_translate("TableDialog2", "   Номер телефона"))
         self.OPsearchPushButton_7.setText(_translate("TableDialog2", "ОП"))
         self.GZIIsearchPushButton_4.setText(_translate("TableDialog2", "ЖЗИЙ"))
@@ -186,6 +189,8 @@ class Ui_TableDialog2(object):
         self.YouYjasearchPushButton_13.setText(_translate("TableDialog2", "ЮЯ"))
         self.IEsearchPushButton_12.setText(_translate("TableDialog2", "ЪЫЬЭ"))
         self.addPushButton.setText(_translate("TableDialog2", "Добавить новый контакт"))
+        self.dayLineEdit.setToolTip(_translate("TableDialog2", "Ввводите год,месяц,день"))
+        self.dayLineEdit.setInputMask(_translate("TableDialog2", "9999-B9-99"))
         self.dayLineEdit.setPlaceholderText(_translate("TableDialog2", "   Дата рождения"))
         self.AZsearchPushButton_14.setText(_translate("TableDialog2", "A-Z"))
         self.updatePushButton.setText(_translate("TableDialog2", "Изменить данные контакта"))
@@ -197,6 +202,7 @@ class Ui_TableDialog2(object):
         self.userPushButton.setText(_translate("TableDialog2", "Все пользователи"))
         self.birthDayPushButtn.setText(_translate("TableDialog2", "Дни рождения в этом месяце"))
         self.idNameLabel_1.setText(_translate("TableDialog2", "id"))
+        self.idLineEdit_1.setToolTip(_translate("TableDialog2", "Вводить не надо"))
         self.idLineEdit_1.setPlaceholderText(_translate("TableDialog2", "   id"))
 
 
