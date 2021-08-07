@@ -164,7 +164,7 @@ class AllUserForm(QDialog):
         self.ui.setupUi(self)
         self.ui.HeadLabel.text()
         self.ui.userTableWidget.setSortingEnabled(True)
-        self.ui.cancelPushButton.clicked.connect(self.gotoInheretensFormTableAdmin)
+        self.ui.cancelPushButton.clicked.connect(self.gotoFormAdmin)
         self.ui.emailLabel.text()
         self.ui.emailLineEdit.text()
         self.ui.delPushButton.clicked.connect(self.deleteUserFunction)
@@ -188,6 +188,10 @@ class AllUserForm(QDialog):
         self.ui.emailLineEdit.clear()
 
     def deleteUserFunction(self):
+        """
+        Удалить пользователя из БД
+        :return:
+        """
         email = self.ui.emailLineEdit.text()
         query = f"SELECT * FROM users WHERE email='{email}'"
         query_delete = f"DELETE from users WHERE email='{email}'"
@@ -207,7 +211,7 @@ class AllUserForm(QDialog):
         """
         self.ui.emailLineEdit.setText(self.ui.userTableWidget.item(row, 0).text().strip())
 
-    def gotoInheretensFormTableAdmin(self):
+    def gotoFormAdmin(self):
         admin = FormAdmin()
         widget.addWidget(admin)
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -360,6 +364,10 @@ class FormAdmin(FormUser):
             self.SearchRows_All()
 
     def deleteRecord(self):
+        """
+        Удалить запись из БД
+        :return:
+        """
         id = self.ui.idLineEdit_1.text()
         query = f"SELECT * FROM phonebook WHERE id='{id}'"
         query_delete = f"DELETE from phonebook WHERE id='{id}'"
@@ -403,6 +411,10 @@ class WelcomeScreen(QDialog):
         widget.setCurrentIndex(widget.currentIndex()+1)
 
     def startSave(self):
+        """
+        Старт с запомненным пользователем
+        :return:
+        """
         global saveuser, savepassword
         query = f"SELECT email, password, save FROM users WHERE save='1'"
         self.db.read(query)
@@ -412,10 +424,19 @@ class WelcomeScreen(QDialog):
              self.ui.passwordLineEdit.setText(row[1])
 
     def saveMe(self):
+        """
+        Проверка нажата ли галка запомнить пользователя
+        :return:
+        """
         if self.ui.saveMeCheckBox.isChecked() == True:
             return False
 
     def saveUser(self, saveuser):
+        """
+        Запомнить пользователя в БД
+        :param saveuser:
+        :return:
+        """
         if self.saveMe() == False:
             email = saveuser
             save = "1"
@@ -436,6 +457,10 @@ class WelcomeScreen(QDialog):
 
 
     def loginFunction(self):
+        """
+        Авторизация пользователя
+        :return:
+        """
         global saveuser, savepassword
         user = self.ui.nameuserLineEdit.text()
         password = self.ui.passwordLineEdit.text()
@@ -727,10 +752,10 @@ class BirthDayOnWeek(QDialog):
         self.ui.labelUser.setText(saveuser)
         self.load_data_birthday()
         self.ui.tableWidget.setSortingEnabled(True)
-        self.ui.cancelPushButton.clicked.connect(self.gotoInheretenseFormAdmin)
+        self.ui.cancelPushButton.clicked.connect(self.gotoFormAdmin)
 
 
-    def gotoInheretenseFormAdmin(self):
+    def gotoFormAdmin(self):
         admin = FormAdmin()
         widget.addWidget(admin)
         widget.setCurrentIndex(widget.currentIndex() + 1)
