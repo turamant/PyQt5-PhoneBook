@@ -21,6 +21,7 @@ class Ui_TableDialog2(object):
         self.ABsearchPushButton_1.setObjectName("ABsearchPushButton_1")
         self.nameLineEdit = QtWidgets.QLineEdit(TableDialog2)
         self.nameLineEdit.setGeometry(QtCore.QRect(960, 440, 221, 36))
+        self.nameLineEdit.setMaxLength(100)
         self.nameLineEdit.setObjectName("nameLineEdit")
         self.familyLabel = QtWidgets.QLabel(TableDialog2)
         self.familyLabel.setGeometry(QtCore.QRect(800, 710, 171, 41))
@@ -154,6 +155,7 @@ class Ui_TableDialog2(object):
         self.idNameLabel_1.setObjectName("idNameLabel_1")
         self.idLineEdit_1 = QtWidgets.QLineEdit(TableDialog2)
         self.idLineEdit_1.setGeometry(QtCore.QRect(960, 390, 221, 36))
+        self.idLineEdit_1.setReadOnly(True)
         self.idLineEdit_1.setObjectName("idLineEdit_1")
 
         self.retranslateUi(TableDialog2)

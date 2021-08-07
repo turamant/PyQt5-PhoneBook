@@ -109,7 +109,7 @@ class BaseForm(QDialog):
         widget.addWidget(help)
         widget.setCurrentIndex(widget.currentIndex()+1)
 
-class MyFormUser(BaseForm):
+class FormUser(BaseForm):
     def __init__(self):
         super().__init__()
 
@@ -199,9 +199,10 @@ class AllUserForm(QDialog):
         self.ui.emailLineEdit.setText(self.ui.userTableWidget.item(row, 0).text().strip())
 
     def gotoInheretensFormTableAdmin(self):
-        admin = InheretensFormTableAdmin()
+        admin = FormAdmin()
         widget.addWidget(admin)
         widget.setCurrentIndex(widget.currentIndex() + 1)
+
     def loadUser(self):
         """
         Поиск записей по SQL запросу.
@@ -220,7 +221,7 @@ class AllUserForm(QDialog):
             self.ui.userTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
             row += 1
 
-class InheretensFormTableAdmin(MyFormUser):
+class FormAdmin(FormUser):
     def __init__(self):
         self.db = DataBase()
         super().__init__()
@@ -242,6 +243,9 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.IEsearchPushButton_12.clicked.connect(lambda: self.SearchRows_Letter("Ъ", "Ю"))
         self.ui.YouYjasearchPushButton_13.clicked.connect(lambda: self.SearchRows_Letter("Ю", "Яя"))
         self.ui.AZsearchPushButton_14.clicked.connect(lambda: self.SearchRows_Letter("A", "Zz"))
+
+        # кнопка загрузки всех данных в главную страницу таблицы
+        self.ui.ALLsearchPushButton_16.clicked.connect(self.SearchRows_All)
 
         self.ui.userPushButton.clicked.connect(self.gotoAllUserForm)
         self.ui.birthDayPushButtn.clicked.connect(self.gotoBirthDayOnWeek)
@@ -433,7 +437,7 @@ class WelcomeScreen(QDialog):
                      saveuser = user
                      savepassword = password
                      self.saveUser(saveuser)
-                     mytable = InheretensFormTableAdmin()
+                     mytable = FormAdmin()
                      widget.addWidget(mytable)
                      widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -441,7 +445,7 @@ class WelcomeScreen(QDialog):
                      saveuser = user
                      savepassword = password
                      self.saveUser(saveuser)
-                     mytable = MyFormUser()
+                     mytable = FormUser()
                      widget.addWidget(mytable)
                      widget.setCurrentIndex(widget.currentIndex() + 1)
             else:
@@ -694,7 +698,7 @@ class BirthDayOnWeek(QDialog):
 
 
     def gotoInheretenseFormAdmin(self):
-        admin = InheretensFormTableAdmin()
+        admin = FormAdmin()
         widget.addWidget(admin)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
