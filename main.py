@@ -1,5 +1,9 @@
+
 import sys
+from datetime import datetime, date
+
 from PyQt5 import QtWidgets
+from PyQt5.QtCore import QDate
 
 from PyQt5.QtWidgets import QDialog, QApplication,  QMessageBox
 
@@ -172,9 +176,9 @@ class AllUserForm(QDialog):
 
         # Ширина колонок таблицы
         self.ui.userTableWidget.setColumnWidth(0, 200)
-        self.ui.userTableWidget.setColumnWidth(1, 200)
-        self.ui.userTableWidget.setColumnWidth(2, 300)
-        self.ui.userTableWidget.setSortingEnabled(True)
+        self.ui.userTableWidget.setColumnWidth(1, 170)
+        self.ui.userTableWidget.setColumnWidth(2, 100)
+        self.ui.userTableWidget.setColumnWidth(3, 200)
 
         self.ui.labelUser.setText(saveuser)
 
@@ -223,15 +227,17 @@ class AllUserForm(QDialog):
         :param sqlStatement:
         :return:
         """
-        sqlStatement = f"SELECT email, password, save from users ORDER By email"
+        sqlStatement = f"SELECT email, password, save, birthday from users ORDER By email"
         self.db.read(sqlStatement)
         rows = self.db.cur.fetchall()
         row = 0
         self.ui.userTableWidget.setRowCount(len(rows))
         for person in rows:
-            self.ui.userTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
-            self.ui.userTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
-            self.ui.userTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
+            print(person)
+            self.ui.userTableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(person[0])))
+            self.ui.userTableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(str(person[1])))
+            self.ui.userTableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
+            self.ui.userTableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(str(person[3])))
             row += 1
 
 class FormAdmin(FormUser):
@@ -665,6 +671,7 @@ class CreateAccScreen(QDialog):
         super().__init__()
         self.ui = Ui_SignUpDialog()
         self.ui.setupUi(self)
+        self.ui.signupLabel.text()
         self.ui.passwordField.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ui.confirmField.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ui.signUpPushButton.clicked.connect(self.signupFunction)
@@ -691,9 +698,11 @@ class CreateAccScreen(QDialog):
         :return:
         """
         user = self.ui.nameuserField.text()
+        birthday = self.ui.birthdayDateEdit.text()
+        print(birthday)
         password = self.ui.passwordField.text()
         confirmpassword = self.ui.confirmField.text()
-        query = f"INSERT INTO users (email, password) VALUES ('{user}', '{password}')"
+        query = f"INSERT INTO users (email, birthday, password) VALUES ('{user}','{birthday}', '{password}')"
         if len(user) == 0 or len(password) == 0 or len(confirmpassword) == 0:
             self.message.setInformativeText("Заполните все поля!")
             self.message.show()
