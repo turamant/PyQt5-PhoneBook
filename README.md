@@ -18,7 +18,9 @@
  <li>"birthday"  date         YES              NULL          </li>                                                              
 
 <h3>Data base load dump</h3>
-<li>mysql  phonebook < phonebookdump.sql</li>
+<li>mysql -u user1 -ppassword1 phonebook < phonebooktable.sql</li>
+<li>mysql -u user1 -ppassword1 phonebook < userstable.sql</li>
+<li>mysql  -u user1 -ppasword1 phonebook < phonebookdump.sql</li>
 
 <h3>How to use</h3>
 <li>python  main.py</li>

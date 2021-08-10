@@ -692,6 +692,20 @@ class CreateAccScreen(QDialog):
         widget.addWidget(welcome)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    def check(self, name):
+        """
+        Проверка на дубликат пользователя
+        :param name:
+        :return:
+        """
+        print("name", name)
+        query = f"SELECT email FROM users WHERE email='{name}'"
+        self.db.read(query)
+        row = self.db.cur.fetchone()
+        if row != None:
+            return True
+        else:
+            return False
 
     def signupFunction(self):
         """
@@ -703,7 +717,7 @@ class CreateAccScreen(QDialog):
         print(birthday)
         password = self.ui.passwordField.text()
         confirmpassword = self.ui.confirmField.text()
-        query = f"INSERT INTO users (email, birthday, password) VALUES ('{user}','{birthday}', '{password}')"
+        query1 = f"INSERT INTO users (email, birthday, password) VALUES ('{user}','{birthday}', '{password}')"
         if len(user) == 0 or len(password) == 0 or len(confirmpassword) == 0:
             self.message.setInformativeText("Заполните все поля!")
             self.message.show()
@@ -712,13 +726,19 @@ class CreateAccScreen(QDialog):
             self.message.setInformativeText("Пароли не совпадают!")
             self.message.show()
 
-        else:
-            self.db.insert(query)
+        elif self.check(user) == False:
+            self.db.insert(query1)
             self.message.setStyleSheet("background-color: green;")
             self.message.setText("Успешная регистрация!")
             self.message.setInformativeText(f"Вы успешно зарегистрированы с ником - {user}")
             self.message.show()
             self.gotoWelcome()
+        else:
+            self.message.setStyleSheet("background-color: green;")
+            self.message.setText("Такой пользователь уже есть!")
+            self.message.setInformativeText(f"Придумайте другой email - {user}")
+            self.message.show()
+
 
 class HelpScreen(QDialog):
     """
