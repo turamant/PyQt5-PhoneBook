@@ -43,6 +43,7 @@ class BaseForm(QDialog):
         self.ui.setupUi(self)
         self.message = QMessageBox()
 
+
     def editLineClear(self):
         """
         Обнуляет поля LineEdit (4 шт)

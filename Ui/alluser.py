@@ -25,6 +25,7 @@ class Ui_AllUserTableDialog(object):
         self.familyLabel.setObjectName("familyLabel")
         self.userTableWidget = QtWidgets.QTableWidget(AllUserTableDialog)
         self.userTableWidget.setGeometry(QtCore.QRect(130, 70, 691, 681))
+        self.userTableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.userTableWidget.setRowCount(1000)
         self.userTableWidget.setColumnCount(4)
         self.userTableWidget.setObjectName("userTableWidget")

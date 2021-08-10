@@ -29,6 +29,7 @@ class Ui_TableDialog(object):
         self.familyLabel.setObjectName("familyLabel")
         self.tableWidget = QtWidgets.QTableWidget(TableDialog)
         self.tableWidget.setGeometry(QtCore.QRect(140, 20, 701, 751))
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget.setRowCount(1000)
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setObjectName("tableWidget")

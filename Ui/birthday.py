@@ -25,6 +25,7 @@ class Ui_BirthDayTableDialog(object):
         self.familyLabel.setObjectName("familyLabel")
         self.tableWidget = QtWidgets.QTableWidget(BirthDayTableDialog)
         self.tableWidget.setGeometry(QtCore.QRect(130, 70, 691, 681))
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget.setRowCount(1000)
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setObjectName("tableWidget")
@@ -67,7 +68,7 @@ class Ui_BirthDayTableDialog(object):
         item.setText(_translate("BirthDayTableDialog", "Дата р."))
         self.cancelPushButton.setText(_translate("BirthDayTableDialog", "назад"))
         self.labelUser.setText(_translate("BirthDayTableDialog", "User"))
-        self.headLabe.setText(_translate("BirthDayTableDialog", "Дни рождения на неделю вперед!!!"))
+        self.headLabe.setText(_translate("BirthDayTableDialog", "Дни рождения на неделю вперед!"))
 
 
 if __name__ == "__main__":
