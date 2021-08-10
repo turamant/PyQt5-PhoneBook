@@ -17,6 +17,8 @@
  <li>"nomer"     char(12)     YES      UNI     NULL          </li>                                                              
  <li>"birthday"  date         YES              NULL          </li>                                                              
 
+<h3>Data base load dump</h3>
+<li>mysql  phonebook < phonebookdump.sql</li>
 
 <h3>How to use</h3>
 <li>python  main.py</li>
